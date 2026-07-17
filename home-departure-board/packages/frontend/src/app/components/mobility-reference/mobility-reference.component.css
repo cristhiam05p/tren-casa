@@ -1,0 +1,46 @@
+.mobility {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: clamp(10px, 1.4vw, 20px);
+  min-width: max-content;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 9px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface-muted) 62%, transparent);
+  color: var(--text-muted);
+  font-size: clamp(1.18rem, 1.6vw, 1.65rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.chip__icon {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 520px) {
+  .mobility {
+    gap: 8px;
+  }
+
+  .chip {
+    gap: 8px;
+    min-height: 54px;
+    padding: 8px 12px;
+    font-size: 1.1rem;
+  }
+
+  .chip__icon {
+    width: 32px;
+    height: 32px;
+  }
+}

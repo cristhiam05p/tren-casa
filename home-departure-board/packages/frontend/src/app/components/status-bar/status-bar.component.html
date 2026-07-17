@@ -1,0 +1,13 @@
+<footer class="status">
+  <time *ngIf="currentClock$ | async as clock" class="status__clock" [attr.datetime]="clock.iso">
+    <span class="status__date">{{ clock.dateLabel }}</span>
+    <span class="status__time">{{ clock.timeLabel }}</span>
+  </time>
+
+  <div class="status__meta">
+    <span class="source" [class.source--demo]="source === 'mock'" [class.source--offline]="source === 'unavailable'">
+      {{ sourceLabel }}
+    </span>
+    <span *ngIf="stale" class="stale">Veraltete Daten</span>
+  </div>
+</footer>

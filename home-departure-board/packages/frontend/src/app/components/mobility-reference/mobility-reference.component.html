@@ -1,0 +1,23 @@
+<div class="mobility" aria-label="Mobilitaetsreferenz">
+  <div class="chip" title="Zu Fuss">
+    <lucide-icon
+      class="chip__icon"
+      [img]="walkingIcon"
+      [size]="36"
+      [strokeWidth]="2.4"
+      aria-hidden="true"
+    />
+    <span>{{ walkingMinutes }} min</span>
+  </div>
+
+  <div class="chip" title="Fahrrad">
+    <lucide-icon
+      class="chip__icon"
+      [img]="bikeIcon"
+      [size]="36"
+      [strokeWidth]="2.4"
+      aria-hidden="true"
+    />
+    <span>{{ bikeMinutes }} min</span>
+  </div>
+</div>

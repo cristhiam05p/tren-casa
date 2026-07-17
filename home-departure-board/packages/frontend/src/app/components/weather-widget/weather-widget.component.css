@@ -1,0 +1,55 @@
+.weather {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  gap: clamp(10px, 1.2vw, 16px);
+  min-width: max-content;
+  min-height: 56px;
+  color: var(--text-muted);
+  font-size: clamp(1.18rem, 1.6vw, 1.7rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.weather__temp {
+  color: var(--text);
+  font-size: clamp(1.42rem, 1.9vw, 2.05rem);
+  font-weight: 900;
+}
+
+.weather__desc,
+.weather__rain {
+  white-space: nowrap;
+}
+
+.weather__rain {
+  color: #2d6f86;
+}
+
+.weather__icon {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  color: #8fa2ad;
+}
+
+@media (max-width: 520px) {
+  .weather {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-width: 0;
+    min-height: 52px;
+    font-size: 1.1rem;
+  }
+
+  .weather__temp {
+    font-size: 1.35rem;
+  }
+
+  .weather__icon {
+    width: 34px;
+    height: 34px;
+  }
+}

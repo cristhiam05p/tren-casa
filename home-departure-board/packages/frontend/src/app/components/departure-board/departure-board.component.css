@@ -1,0 +1,87 @@
+:host {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+
+.board {
+  --status-height: clamp(84px, 10vh, 118px);
+  --surface: #f7faf7;
+  --surface-muted: #e4ebe5;
+  --text: #17211b;
+  --text-muted: #5d6b61;
+  --line: rgba(23, 33, 27, 0.11);
+
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) var(--status-height);
+  gap: clamp(10px, 1.6vw, 18px);
+  width: 100%;
+  height: 100%;
+  padding: clamp(12px, 2vw, 32px);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0) 38%),
+    var(--surface);
+  color: var(--text);
+}
+
+.board--night {
+  --surface: #101312;
+  --surface-muted: #202722;
+  --text: #edf4ef;
+  --text-muted: #aebbb1;
+  --line: rgba(237, 244, 239, 0.14);
+  background:
+    linear-gradient(180deg, rgba(53, 65, 59, 0.26), rgba(16, 19, 18, 0) 42%),
+    var(--surface);
+}
+
+.board__top {
+  display: grid;
+  grid-template-columns: minmax(max-content, 1fr) max-content;
+  align-items: center;
+  gap: clamp(14px, 2.4vw, 48px);
+  min-height: 58px;
+  width: 100%;
+}
+
+.board__top app-weather-widget {
+  justify-self: end;
+}
+
+.board__main {
+  display: grid;
+  align-content: start;
+  gap: clamp(10px, 1.8vw, 18px);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.loading-state,
+.empty-state {
+  display: grid;
+  min-height: 44vh;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-size: clamp(1.4rem, 3vw, 2.4rem);
+  text-align: center;
+  padding: 28px;
+}
+
+@media (max-width: 520px) {
+  .board {
+    --status-height: 112px;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .board__top {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+  }
+
+  .board__top app-weather-widget {
+    justify-self: start;
+  }
+}

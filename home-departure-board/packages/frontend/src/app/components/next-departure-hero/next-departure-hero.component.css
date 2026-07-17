@@ -1,0 +1,111 @@
+.hero {
+  --hero-color: #2f855a;
+
+  display: grid;
+  grid-template-columns: minmax(76px, 0.48fr) minmax(0, 1.9fr) minmax(128px, 1fr);
+  align-items: center;
+  gap: clamp(12px, 2.2vw, 28px);
+  min-height: clamp(148px, 26vh, 260px);
+  padding: clamp(14px, 2.6vw, 38px);
+  border: 1px solid color-mix(in srgb, var(--hero-color) 38%, var(--line));
+  border-left: clamp(10px, 1.3vw, 18px) solid var(--hero-color);
+  border-radius: 8px;
+  background:
+    linear-gradient(
+      110deg,
+      color-mix(in srgb, var(--hero-color) 17%, transparent),
+      color-mix(in srgb, var(--surface) 92%, transparent) 46%
+    );
+  box-shadow: 0 18px 55px rgba(31, 49, 37, 0.11);
+}
+
+.hero--cancelled {
+  opacity: 0.72;
+  filter: grayscale(0.35);
+}
+
+.hero__line {
+  display: grid;
+  place-items: center;
+  width: clamp(58px, 7vw, 100px);
+  aspect-ratio: 1;
+  border-radius: 8px;
+  background: var(--hero-color);
+  color: white;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.hero__body {
+  min-width: 0;
+}
+
+.hero__destination {
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: clamp(1.9rem, 4.7vw, 4.7rem);
+  font-weight: 850;
+  line-height: 1.02;
+}
+
+.hero__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  min-height: 24px;
+  margin-top: clamp(6px, 1.4vw, 14px);
+  color: var(--text-muted);
+  font-size: clamp(0.92rem, 1.45vw, 1.18rem);
+  font-weight: 700;
+}
+
+.delay {
+  color: #b84c12;
+}
+
+.cancelled {
+  color: var(--text);
+  text-decoration: line-through;
+}
+
+.hero__time {
+  justify-self: end;
+  white-space: nowrap;
+  color: var(--hero-color);
+  font-size: clamp(2.35rem, 6.7vw, 6.1rem);
+  font-weight: 900;
+  line-height: 0.95;
+  text-align: right;
+}
+
+.hero__time--cancelled {
+  text-decoration: line-through;
+}
+
+@media (max-width: 760px) {
+  .hero {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      "line destination"
+      "time time";
+    gap: 14px;
+    min-height: 0;
+    padding: 18px;
+  }
+
+  .hero__line {
+    grid-area: line;
+  }
+
+  .hero__body {
+    grid-area: destination;
+  }
+
+  .hero__time {
+    grid-area: time;
+    justify-self: start;
+    text-align: left;
+  }
+}

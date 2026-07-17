@@ -1,0 +1,21 @@
+<section class="list" aria-label="Weitere Abfahrten">
+  <article
+    *ngFor="let departure of departures"
+    class="row"
+    [class.row--cancelled]="departure.cancelled"
+    [style.--row-color]="colorFor(departure)"
+  >
+    <div class="line">{{ departure.line }}</div>
+    <div class="destination">
+      <span>{{ departure.destination }}</span>
+      <small *ngIf="platformLabel(departure) as label">{{ label }}</small>
+    </div>
+    <div class="status">
+      <span *ngIf="departure.cancelled" class="cancelled">fällt aus</span>
+      <span *ngIf="departure.delayMinutes && !departure.cancelled" class="delay">
+        +{{ departure.delayMinutes }} min
+      </span>
+    </div>
+    <div class="time">{{ departure.displayTime }}</div>
+  </article>
+</section>

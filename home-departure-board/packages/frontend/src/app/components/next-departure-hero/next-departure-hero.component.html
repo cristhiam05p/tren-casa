@@ -1,0 +1,22 @@
+<article
+  class="hero"
+  [class.hero--cancelled]="departure.cancelled"
+  [style.--hero-color]="heroColor"
+>
+  <div class="hero__line">{{ departure.line }}</div>
+
+  <div class="hero__body">
+    <div class="hero__destination">{{ departure.destination }}</div>
+    <div class="hero__meta">
+      <span *ngIf="platformLabel">{{ platformLabel }}</span>
+      <span *ngIf="departure.delayMinutes && !departure.cancelled" class="delay">
+        +{{ departure.delayMinutes }} min
+      </span>
+      <span *ngIf="departure.cancelled" class="cancelled">fällt aus</span>
+    </div>
+  </div>
+
+  <div class="hero__time" [class.hero__time--cancelled]="departure.cancelled">
+    {{ heroDisplayTime }}
+  </div>
+</article>

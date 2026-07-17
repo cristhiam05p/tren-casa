@@ -1,0 +1,10 @@
+node_modules/
+.pnpm-store/
+dist/
+coverage/
+.angular/
+.env
+.DS_Store
+npm-debug.log*
+*.tsbuildinfo
+*.log

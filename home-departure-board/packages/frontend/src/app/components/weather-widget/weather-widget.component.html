@@ -1,0 +1,20 @@
+<aside class="weather" aria-label="Wetter">
+  <ng-container *ngIf="weather; else unavailable">
+    <lucide-icon
+      class="weather__icon"
+      [img]="weatherIcon"
+      [size]="42"
+      [strokeWidth]="2.3"
+      aria-hidden="true"
+    />
+    <span class="weather__temp">{{ weather.temperatureCelsius }}°C</span>
+    <span class="weather__desc">{{ weather.description }}</span>
+    <span *ngIf="weather.precipitationProbability !== undefined" class="weather__rain">
+      {{ weather.precipitationProbability }}%
+    </span>
+  </ng-container>
+
+  <ng-template #unavailable>
+    <span class="weather__desc">{{ loading ? "Wetter..." : "Wetter nicht verfügbar" }}</span>
+  </ng-template>
+</aside>

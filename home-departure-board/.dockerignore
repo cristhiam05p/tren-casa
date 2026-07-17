@@ -1,0 +1,16 @@
+.git
+.agents
+.codex
+.docker-config
+.runtime-logs
+node_modules
+packages/*/node_modules
+packages/*/dist
+dist
+coverage
+.env
+*.log
+npm-debug.log*
+pnpm-debug.log*
+Dockerfile
+docker-compose*.yml

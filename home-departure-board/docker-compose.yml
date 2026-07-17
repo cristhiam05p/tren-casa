@@ -1,0 +1,46 @@
+services:
+  departure-board:
+    build:
+      context: .
+      target: runtime
+    image: home-departure-board:local
+    container_name: home-departure-board
+    init: true
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      STATIC_DIR: /app/packages/frontend/dist/frontend/browser
+      TZ: ${TZ:-Europe/Berlin}
+      ORIGIN_STOP_NAME: ${ORIGIN_STOP_NAME:-Adolf-Ehrmann-Bad}
+      ORIGIN_STOP_ID: ${ORIGIN_STOP_ID:-7001114}
+      DESTINATION_STOP_NAME: ${DESTINATION_STOP_NAME:-Karlsruhe Hbf}
+      DESTINATION_STOP_ID: ${DESTINATION_STOP_ID:-7000090}
+      PREFERRED_LINES: ${PREFERRED_LINES:-S1,S11}
+      WALKING_MINUTES: ${WALKING_MINUTES:-8}
+      BIKE_MINUTES: ${BIKE_MINUTES:-4}
+      DEPARTURE_POLLING_INTERVAL_MS: ${DEPARTURE_POLLING_INTERVAL_MS:-30000}
+      WEATHER_POLLING_INTERVAL_MS: ${WEATHER_POLLING_INTERVAL_MS:-600000}
+      MOCK_FALLBACK_ENABLED: ${MOCK_FALLBACK_ENABLED:-true}
+      NIGHT_MODE_START_HOUR: ${NIGHT_MODE_START_HOUR:-20}
+      NIGHT_MODE_END_HOUR: ${NIGHT_MODE_END_HOUR:-7}
+      KVV_EFA_BASE_URL: ${KVV_EFA_BASE_URL:-https://projekte.kvv-efa.de/sl3/}
+      KVV_EFA_REQUEST_TIMEOUT_MS: ${KVV_EFA_REQUEST_TIMEOUT_MS:-8000}
+      WEATHER_LATITUDE: ${WEATHER_LATITUDE:-49.0069}
+      WEATHER_LONGITUDE: ${WEATHER_LONGITUDE:-8.4037}
+      WEATHER_TIMEZONE: ${WEATHER_TIMEZONE:-Europe/Berlin}
+    ports:
+      - "${HOST_PORT:-3000}:3000"
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3000/api/health').then((response) => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))"
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    stop_grace_period: 10s

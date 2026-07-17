@@ -1,0 +1,43 @@
+<section class="board" [class.board--night]="(viewModel$ | async)?.nightMode">
+  <ng-container *ngIf="viewModel$ | async as vm">
+    <header class="board__top">
+      <app-mobility-reference
+        [walkingMinutes]="config.walkingMinutes"
+        [bikeMinutes]="config.bikeMinutes"
+      />
+      <app-weather-widget
+        [weather]="vm.weatherState.weather"
+        [loading]="vm.weatherState.loading"
+      />
+    </header>
+
+    <main class="board__main">
+      <div *ngIf="vm.departuresState.loading" class="loading-state">Lade Abfahrten...</div>
+
+      <ng-container *ngIf="!vm.departuresState.loading">
+        <app-next-departure-hero
+          *ngIf="vm.nextDeparture; else noService"
+          [departure]="vm.nextDeparture"
+          [config]="config"
+        />
+
+        <ng-template #noService>
+          <div class="empty-state">{{ noServiceMessage(vm.departuresState.source) }}</div>
+        </ng-template>
+
+        <app-departure-list
+          *ngIf="vm.followingDepartures.length > 0"
+          [departures]="vm.followingDepartures"
+          [config]="config"
+        />
+      </ng-container>
+    </main>
+
+    <app-status-bar
+      [source]="vm.departuresState.source"
+      [updatedAt]="vm.departuresState.updatedAt"
+      [stale]="vm.departuresState.stale"
+    />
+  </ng-container>
+</section>
+
