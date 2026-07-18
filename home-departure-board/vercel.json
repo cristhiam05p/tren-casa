@@ -5,6 +5,10 @@
   "outputDirectory": "packages/frontend/dist/frontend/browser",
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "/api/[...path].js"
+    },
+    {
       "handle": "filesystem"
     },
     {
