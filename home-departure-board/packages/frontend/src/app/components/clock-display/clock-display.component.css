@@ -1,0 +1,50 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.clock {
+  display: grid;
+  justify-items: end;
+  gap: 3px;
+  color: var(--text);
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.clock__date {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 1rem;
+  font-weight: 800;
+  text-overflow: ellipsis;
+}
+
+.clock__time {
+  font-size: 3.6rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 950;
+  letter-spacing: 0;
+}
+
+@media (max-width: 760px) {
+  .clock__date {
+    font-size: 0.72rem;
+  }
+
+  .clock__time {
+    font-size: 2.25rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .clock__date {
+    font-size: 0.65rem;
+  }
+
+  .clock__time {
+    font-size: 1.9rem;
+  }
+}

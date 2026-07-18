@@ -1,7 +1,7 @@
 .status {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) max-content;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: clamp(14px, 2vw, 30px);
   min-height: 100%;
   width: 100%;
@@ -9,40 +9,15 @@
   border-top: 1px solid var(--line);
   background: color-mix(in srgb, var(--surface) 90%, transparent);
   color: var(--text-muted);
-  font-size: clamp(0.86rem, 1.05vw, 1.05rem);
+  font-size: 0.95rem;
   font-weight: 750;
   white-space: nowrap;
-}
-
-.status__clock {
-  display: grid;
-  align-content: center;
-  gap: 2px;
-  min-width: 0;
-  color: var(--text);
-  font-weight: 850;
-  line-height: 1;
-}
-
-.status__date {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: var(--text-muted);
-  font-size: clamp(0.9rem, 1.35vw, 1.25rem);
-  font-weight: 800;
-}
-
-.status__time {
-  color: var(--text);
-  font-size: clamp(2.6rem, 6vw, 4.4rem);
-  font-weight: 950;
-  letter-spacing: 0;
 }
 
 .status__meta {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   flex: 0 1 auto;
   gap: clamp(10px, 1.4vw, 18px);
   min-width: 0;
@@ -64,6 +39,30 @@
   color: #9a5c02;
 }
 
+.updated {
+  color: var(--text-muted);
+}
+
+.install {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 6px 11px;
+  border: 1px solid color-mix(in srgb, #2f855a 36%, var(--line));
+  border-radius: 6px;
+  background: color-mix(in srgb, #2f855a 12%, var(--surface));
+  color: #26714c;
+  cursor: pointer;
+  font-weight: 850;
+}
+
+.install:focus-visible {
+  outline: 3px solid color-mix(in srgb, #2f855a 45%, transparent);
+  outline-offset: 2px;
+}
+
 .source--loading {
   background: rgba(74, 95, 86, 0.12);
   color: var(--text-muted);
@@ -82,22 +81,24 @@
 
 @media (max-width: 520px) {
   .status {
-    grid-template-columns: 1fr;
-    justify-content: flex-start;
-    align-content: center;
-    font-size: 0.86rem;
-  }
-
-  .status__clock {
-    width: 100%;
-  }
-
-  .status__time {
-    font-size: clamp(2rem, 10vw, 3rem);
+    gap: 8px;
+    font-size: 0.76rem;
   }
 
   .status__meta {
     justify-content: flex-start;
     flex-wrap: wrap;
+    gap: 6px 10px;
+  }
+
+  .source,
+  .stale {
+    min-height: 24px;
+    padding: 3px 7px;
+  }
+
+  .install {
+    min-height: 32px;
+    padding: 5px 8px;
   }
 }

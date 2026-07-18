@@ -4,6 +4,7 @@ import { combineLatest, interval, map, shareReplay, startWith } from "rxjs";
 import { isNightMode, type Departure } from "@home-departure-board/shared";
 import { BOARD_CONFIG } from "../../board-settings";
 import { DepartureApiService } from "../../services/departure-api.service";
+import { ClockDisplayComponent } from "../clock-display/clock-display.component";
 import { DepartureListComponent } from "../departure-list/departure-list.component";
 import { MobilityReferenceComponent } from "../mobility-reference/mobility-reference.component";
 import { NextDepartureHeroComponent } from "../next-departure-hero/next-departure-hero.component";
@@ -15,6 +16,7 @@ import { WeatherWidgetComponent } from "../weather-widget/weather-widget.compone
   standalone: true,
   imports: [
     CommonModule,
+    ClockDisplayComponent,
     DepartureListComponent,
     MobilityReferenceComponent,
     NextDepartureHeroComponent,

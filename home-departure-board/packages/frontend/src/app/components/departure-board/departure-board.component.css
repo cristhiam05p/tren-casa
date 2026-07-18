@@ -5,7 +5,7 @@
 }
 
 .board {
-  --status-height: clamp(84px, 10vh, 118px);
+  --status-height: 52px;
   --surface: #f7faf7;
   --surface-muted: #e4ebe5;
   --text: #17211b;
@@ -37,14 +37,25 @@
 
 .board__top {
   display: grid;
-  grid-template-columns: minmax(max-content, 1fr) max-content;
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
+  grid-template-areas: "mobility weather clock";
   align-items: center;
   gap: clamp(14px, 2.4vw, 48px);
   min-height: 58px;
   width: 100%;
 }
 
+.board__top app-mobility-reference {
+  grid-area: mobility;
+}
+
 .board__top app-weather-widget {
+  grid-area: weather;
+  justify-self: end;
+}
+
+.board__top app-clock-display {
+  grid-area: clock;
   justify-self: end;
 }
 
@@ -69,19 +80,29 @@
   padding: 28px;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 760px) {
   .board {
-    --status-height: 112px;
+    --status-height: 54px;
     gap: 10px;
     padding: 12px;
   }
 
   .board__top {
-    grid-template-columns: 1fr;
-    align-items: flex-start;
+    grid-template-columns: minmax(0, 1fr) max-content;
+    grid-template-areas:
+      "mobility clock"
+      "weather weather";
+    align-items: center;
+    gap: 12px;
   }
 
   .board__top app-weather-widget {
     justify-self: start;
+  }
+}
+
+@media (max-width: 400px) {
+  .board__top app-clock-display {
+    align-self: start;
   }
 }

@@ -10,6 +10,7 @@
   "background_color": "#eef2ee",
   "theme_color": "#2f855a",
   "categories": ["transport", "utilities"],
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/assets/icons/icon-192.png",

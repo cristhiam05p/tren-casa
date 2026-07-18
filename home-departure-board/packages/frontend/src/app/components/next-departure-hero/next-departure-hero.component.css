@@ -2,7 +2,7 @@
   --hero-color: #2f855a;
 
   display: grid;
-  grid-template-columns: minmax(76px, 0.48fr) minmax(0, 1.9fr) minmax(128px, 1fr);
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
   align-items: center;
   gap: clamp(12px, 2.2vw, 28px);
   min-height: clamp(148px, 26vh, 260px);
@@ -44,9 +44,9 @@
 .hero__destination {
   overflow-wrap: anywhere;
   color: var(--text);
-  font-size: clamp(1.9rem, 4.7vw, 4.7rem);
+  font-size: 2.65rem;
   font-weight: 850;
-  line-height: 1.02;
+  line-height: 1;
 }
 
 .hero__meta {
@@ -74,7 +74,7 @@
   justify-self: end;
   white-space: nowrap;
   color: var(--hero-color);
-  font-size: clamp(2.35rem, 6.7vw, 6.1rem);
+  font-size: 6.75rem;
   font-weight: 900;
   line-height: 0.95;
   text-align: right;
@@ -103,9 +103,24 @@
     grid-area: destination;
   }
 
+  .hero__destination {
+    font-size: 1.65rem;
+  }
+
   .hero__time {
     grid-area: time;
     justify-self: start;
+    font-size: 4.2rem;
     text-align: left;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero__destination {
+    font-size: 1.45rem;
+  }
+
+  .hero__time {
+    font-size: 3.6rem;
   }
 }

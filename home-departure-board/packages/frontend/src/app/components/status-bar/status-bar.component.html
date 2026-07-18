@@ -1,9 +1,4 @@
 <footer class="status">
-  <time *ngIf="currentClock$ | async as clock" class="status__clock" [attr.datetime]="clock.iso">
-    <span class="status__date">{{ clock.dateLabel }}</span>
-    <span class="status__time">{{ clock.timeLabel }}</span>
-  </time>
-
   <div class="status__meta">
     <span
       class="source"
@@ -13,6 +8,12 @@
     >
       {{ sourceLabel }}
     </span>
+    <span *ngIf="updatedAt" class="updated">Aktualisiert {{ updatedAt | date: "HH:mm:ss" }}</span>
     <span *ngIf="stale" class="stale">Veraltete Daten</span>
   </div>
+
+  <button *ngIf="canInstall" class="install" type="button" (click)="installApp()">
+    <lucide-icon [img]="installIcon" [size]="18" [strokeWidth]="2.4" aria-hidden="true" />
+    <span>Installieren</span>
+  </button>
 </footer>

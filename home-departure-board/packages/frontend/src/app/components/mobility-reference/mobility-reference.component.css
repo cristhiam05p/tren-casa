@@ -35,12 +35,23 @@
   .chip {
     gap: 8px;
     min-height: 54px;
-    padding: 8px 12px;
+    padding: 8px 10px;
     font-size: 1.1rem;
   }
 
   .chip__icon {
     width: 32px;
     height: 32px;
+  }
+}
+
+@media (max-width: 400px) {
+  .mobility {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .chip {
+    justify-content: flex-start;
   }
 }

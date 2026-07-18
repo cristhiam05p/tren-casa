@@ -296,10 +296,11 @@ For daily use, give the PC or mini PC a fixed LAN address in your router, or res
 
 On Android Chrome:
 
-1. Open `http://SERVER-IP:3000`.
-2. Tap the Chrome menu.
-3. Tap `Add to Home screen` or `Install app`, depending on what Chrome offers.
-4. Name it `Tren Casa`.
+1. Open `https://tren-casa-one.vercel.app/`.
+2. Tap the `Installieren` button in the bottom status bar when it appears.
+3. Confirm the browser installation prompt.
+
+The browser menu remains available as a fallback: choose `Add to Home screen` or `Install app` and name it `Tren Casa`.
 
 If the app is served over plain `http://SERVER-IP:3000`, Android may create a fast home-screen shortcut instead of a fully installed PWA. For full PWA install behavior, serve it over HTTPS.
 

@@ -1,0 +1,4 @@
+<time *ngIf="currentClock$ | async as clock" class="clock" [attr.datetime]="clock.iso">
+  <span class="clock__date">{{ clock.dateLabel }}</span>
+  <span class="clock__time">{{ clock.timeLabel }}</span>
+</time>
