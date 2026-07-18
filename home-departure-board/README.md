@@ -51,6 +51,45 @@ corepack enable
 pnpm install
 ```
 
+## Deploy On Vercel
+
+This repository is Vercel-ready. The app does not need Docker on Vercel.
+
+When importing the GitHub repository in Vercel, use these settings:
+
+```text
+Root Directory: home-departure-board
+Install Command: corepack enable && pnpm install --frozen-lockfile
+Build Command: pnpm build
+Output Directory: packages/frontend/dist/frontend/browser
+```
+
+These same values are also committed in `vercel.json`.
+
+The frontend calls `/api` on the same deployed domain. Vercel serves those backend routes through `api/[...path].js`, which loads the compiled Express app from `packages/backend/dist/server.js`. Nothing in the Vercel deployment calls `localhost`.
+
+Recommended environment variables in Vercel:
+
+```env
+NODE_ENV=production
+TZ=Europe/Berlin
+MOCK_FALLBACK_ENABLED=true
+KVV_EFA_BASE_URL=https://projekte.kvv-efa.de/sl3/
+KVV_EFA_REQUEST_TIMEOUT_MS=8000
+```
+
+All other values have production-safe defaults, including `ORIGIN_STOP_ID=7001114`, `DESTINATION_STOP_ID=7000090`, `PREFERRED_LINES=S1,S11`, Karlsruhe weather coordinates, and mock fallback.
+
+After deployment, test:
+
+```text
+https://YOUR-VERCEL-DOMAIN.vercel.app/
+https://YOUR-VERCEL-DOMAIN.vercel.app/api/health
+https://YOUR-VERCEL-DOMAIN.vercel.app/api/departures
+```
+
+Vercel provides HTTPS automatically, so the phone PWA install flow works better there than on a plain LAN `http://SERVER-IP:3000` URL.
+
 ## Run Locally
 
 Start backend and frontend together:

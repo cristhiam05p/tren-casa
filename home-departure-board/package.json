@@ -2,6 +2,7 @@
   "name": "home-departure-board",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "A kiosk-friendly home departure board for Adolf-Ehrmann-Bad toward Karlsruhe Hbf.",
   "packageManager": "pnpm@9.15.9",
   "workspaces": [
