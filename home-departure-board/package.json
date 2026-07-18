@@ -12,14 +12,15 @@
   ],
   "scripts": {
     "dev": "pnpm --filter @home-departure-board/shared build && concurrently -n api,web -c cyan,green \"pnpm --filter @home-departure-board/backend dev\" \"pnpm --filter @home-departure-board/frontend start\"",
-    "build": "pnpm --filter @home-departure-board/shared build && pnpm --filter @home-departure-board/backend build && pnpm --filter @home-departure-board/frontend build",
+    "build": "pnpm --filter @home-departure-board/shared build && pnpm --filter @home-departure-board/backend build && pnpm build:vercel-api && pnpm --filter @home-departure-board/frontend build",
+    "build:vercel-api": "esbuild packages/backend/dist/server.js --bundle --platform=node --format=esm --target=node22 --outfile=vercel-api-dist/server.mjs",
     "test": "pnpm --filter @home-departure-board/shared build && pnpm --filter @home-departure-board/shared test && pnpm --filter @home-departure-board/backend test && pnpm --filter @home-departure-board/frontend test",
     "lint": "pnpm --filter @home-departure-board/shared build && pnpm --filter @home-departure-board/shared lint && pnpm --filter @home-departure-board/backend lint && pnpm --filter @home-departure-board/frontend lint",
     "start:backend": "pnpm --filter @home-departure-board/backend dev",
     "start:frontend": "pnpm --filter @home-departure-board/frontend start"
   },
   "engines": {
-    "node": ">=20.11.0",
+    "node": "22.x",
     "pnpm": ">=9.0.0"
   },
   "devDependencies": {
@@ -28,6 +29,7 @@
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.10.2",
     "concurrently": "^9.1.2",
+    "esbuild": "^0.28.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
