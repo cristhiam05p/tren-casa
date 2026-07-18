@@ -97,14 +97,14 @@ export class KvvEfaDepartureProvider implements DepartureProvider {
       .filter(Boolean)
       .join(" ");
     const plannedTime =
-      parseEfaDateTime(getValue(item, ["dateTime"])) ??
-      parseEfaDateTime(getValue(item, ["itdDateTime"])) ??
-      parseEfaDateTime(item) ??
+      parseEfaDateTime(getValue(item, ["dateTime"]), this.config.timeZone) ??
+      parseEfaDateTime(getValue(item, ["itdDateTime"]), this.config.timeZone) ??
+      parseEfaDateTime(item, this.config.timeZone) ??
       parseCountdown(getValue(item, ["countdown"]), now);
     const realtimeTime =
-      parseEfaDateTime(getValue(item, ["realDateTime"])) ??
-      parseEfaDateTime(getValue(item, ["rtDateTime"])) ??
-      parseEfaDateTime(getValue(item, ["realtimeDateTime"]));
+      parseEfaDateTime(getValue(item, ["realDateTime"]), this.config.timeZone) ??
+      parseEfaDateTime(getValue(item, ["rtDateTime"]), this.config.timeZone) ??
+      parseEfaDateTime(getValue(item, ["realtimeDateTime"]), this.config.timeZone);
 
     if (!line || !destination || !plannedTime) {
       return undefined;
@@ -197,8 +197,14 @@ function isDepartureLike(value: unknown): value is JsonObject {
   );
 }
 
-function parseEfaDateTime(value: unknown): string | undefined {
+export function parseEfaDateTime(value: unknown, timeZone: string): string | undefined {
   if (typeof value === "string") {
+    const localParts = parseLocalDateTimeString(value);
+
+    if (localParts) {
+      return zonedDateTimeToIso(localParts, timeZone);
+    }
+
     const parsed = Date.parse(value);
     return Number.isNaN(parsed) ? undefined : new Date(parsed).toISOString();
   }
@@ -212,6 +218,7 @@ function parseEfaDateTime(value: unknown): string | undefined {
   const day = numberValue(value.day ?? value.d);
   const hour = numberValue(value.hour ?? value.h);
   const minute = numberValue(value.minute ?? value.min);
+  const second = numberValue(value.second ?? value.sec ?? value.s) ?? 0;
 
   if (
     year === undefined ||
@@ -223,7 +230,93 @@ function parseEfaDateTime(value: unknown): string | undefined {
     return undefined;
   }
 
-  return new Date(year, month - 1, day, hour, minute, 0, 0).toISOString();
+  return zonedDateTimeToIso({ year, month, day, hour, minute, second }, timeZone);
+}
+
+type LocalDateTimeParts = {
+  year: number;
+  month: number;
+  day: number;
+  hour: number;
+  minute: number;
+  second: number;
+};
+
+function parseLocalDateTimeString(value: string): LocalDateTimeParts | undefined {
+  const match = value
+    .trim()
+    .match(/^(\d{4})-(\d{2})-(\d{2})[T\s](\d{2}):(\d{2})(?::(\d{2}))?(?:\.\d+)?$/);
+
+  if (!match) {
+    return undefined;
+  }
+
+  return {
+    year: Number(match[1]),
+    month: Number(match[2]),
+    day: Number(match[3]),
+    hour: Number(match[4]),
+    minute: Number(match[5]),
+    second: Number(match[6] ?? 0)
+  };
+}
+
+function zonedDateTimeToIso(parts: LocalDateTimeParts, timeZone: string): string | undefined {
+  const desiredWallClock = partsToUtcMilliseconds(parts);
+
+  if (Number.isNaN(desiredWallClock)) {
+    return undefined;
+  }
+
+  let candidate = desiredWallClock;
+
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    const resolvedParts = getZonedDateTimeParts(new Date(candidate), timeZone);
+    const difference = desiredWallClock - partsToUtcMilliseconds(resolvedParts);
+
+    candidate += difference;
+
+    if (difference === 0) {
+      break;
+    }
+  }
+
+  const resolved = getZonedDateTimeParts(new Date(candidate), timeZone);
+  return sameLocalDateTime(resolved, parts) ? new Date(candidate).toISOString() : undefined;
+}
+
+function getZonedDateTimeParts(date: Date, timeZone: string): LocalDateTimeParts {
+  const formatter = new Intl.DateTimeFormat("en-CA", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h23"
+  });
+  const entries = formatter
+    .formatToParts(date)
+    .filter((part) => ["year", "month", "day", "hour", "minute", "second"].includes(part.type))
+    .map((part) => [part.type, Number(part.value)]);
+
+  return Object.fromEntries(entries) as LocalDateTimeParts;
+}
+
+function partsToUtcMilliseconds(parts: LocalDateTimeParts): number {
+  return Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute, parts.second);
+}
+
+function sameLocalDateTime(left: LocalDateTimeParts, right: LocalDateTimeParts): boolean {
+  return (
+    left.year === right.year &&
+    left.month === right.month &&
+    left.day === right.day &&
+    left.hour === right.hour &&
+    left.minute === right.minute &&
+    left.second === right.second
+  );
 }
 
 function parseCountdown(value: unknown, now: Date): string | undefined {
