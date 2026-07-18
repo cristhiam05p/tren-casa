@@ -1,5 +1,4 @@
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import cors from "cors";
 import express from "express";
 import morgan from "morgan";
@@ -36,7 +35,8 @@ app.use((error: unknown, _request: express.Request, response: express.Response, 
   });
 });
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
+const entryFileName = path.basename(process.argv[1] ?? "");
+if (process.env.VERCEL !== "1" && ["server.ts", "server.js"].includes(entryFileName)) {
   app.listen(runtimeConfig.port, () => {
     console.log(`Departure board backend listening on http://localhost:${runtimeConfig.port}`);
   });
