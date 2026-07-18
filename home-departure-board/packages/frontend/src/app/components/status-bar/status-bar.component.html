@@ -5,7 +5,12 @@
   </time>
 
   <div class="status__meta">
-    <span class="source" [class.source--demo]="source === 'mock'" [class.source--offline]="source === 'unavailable'">
+    <span
+      class="source"
+      [class.source--loading]="loading"
+      [class.source--demo]="source === 'mock' && !loading"
+      [class.source--offline]="source === 'unavailable' && !loading"
+    >
       {{ sourceLabel }}
     </span>
     <span *ngIf="stale" class="stale">Veraltete Daten</span>

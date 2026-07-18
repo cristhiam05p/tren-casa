@@ -64,6 +64,11 @@
   color: #9a5c02;
 }
 
+.source--loading {
+  background: rgba(74, 95, 86, 0.12);
+  color: var(--text-muted);
+}
+
 .source--offline,
 .stale {
   background: rgba(180, 35, 24, 0.12);

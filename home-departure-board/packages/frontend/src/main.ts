@@ -8,10 +8,42 @@ bootstrapApplication(AppComponent, {
 
 if ("serviceWorker" in navigator && isServiceWorkerSupportedOrigin()) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/sw.js")
-      .catch((error) => console.error("Service worker registration failed", error));
+    void registerServiceWorker();
   });
+}
+
+const SERVICE_WORKER_UPDATE_INTERVAL_MS = 15 * 60 * 1000;
+
+async function registerServiceWorker(): Promise<void> {
+  let hasController = Boolean(navigator.serviceWorker.controller);
+  let reloading = false;
+
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (!hasController) {
+      hasController = true;
+      return;
+    }
+
+    if (!reloading) {
+      reloading = true;
+      window.location.reload();
+    }
+  });
+
+  try {
+    const registration = await navigator.serviceWorker.register("/sw.js", {
+      updateViaCache: "none"
+    });
+
+    await registration.update();
+    const checkForUpdates = () =>
+      registration.update().catch((error) => console.warn("Service worker update failed", error));
+
+    window.setInterval(() => void checkForUpdates(), SERVICE_WORKER_UPDATE_INTERVAL_MS);
+    window.addEventListener("online", () => void checkForUpdates());
+  } catch (error) {
+    console.error("Service worker registration failed", error);
+  }
 }
 
 function isServiceWorkerSupportedOrigin(): boolean {

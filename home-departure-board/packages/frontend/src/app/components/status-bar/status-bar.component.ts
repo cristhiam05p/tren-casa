@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
 import type { DataSource } from "@home-departure-board/shared";
 import { interval, map, startWith } from "rxjs";
+import { getSourceLabel } from "./status-label";
 
 type ClockView = {
   iso: string;
@@ -20,6 +21,7 @@ export class StatusBarComponent {
   @Input({ required: true }) source!: DataSource;
   @Input() updatedAt?: string;
   @Input() stale = false;
+  @Input() loading = false;
 
   readonly currentClock$ = interval(1000).pipe(
     startWith(0),
@@ -45,6 +47,6 @@ export class StatusBarComponent {
   );
 
   get sourceLabel(): string {
-    return this.source === "live" ? "Live data" : this.source === "mock" ? "Demo data" : "Offline";
+    return getSourceLabel(this.source, this.loading);
   }
 }

@@ -1,4 +1,4 @@
-const CACHE_NAME = "home-departure-board-v1";
+const CACHE_NAME = "home-departure-board-v2";
 const APP_SHELL = [
   "/",
   "/manifest.webmanifest",
@@ -47,7 +47,7 @@ self.addEventListener("fetch", (event) => {
   }
 
   if (url.pathname.startsWith("/api/")) {
-    event.respondWith(fetch(request));
+    event.respondWith(fetch(request, { cache: "no-store" }));
     return;
   }
 
